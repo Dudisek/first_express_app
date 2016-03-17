@@ -13,6 +13,8 @@ var postsList = Object.keys(posts).map(function(value) {
 });
 
 app.get('/', function(req, res){
+  var path = req.path;
+  res.locals.path = path;
   res.render('index');
 });
 
@@ -23,6 +25,14 @@ app.get('/blog/:title?', function(req, res){
   } else {
     var post = posts[title] || {};
     res.render('post', { post: post });
+  };
+});
+
+app.get('/posts', function(req,res) {
+  if (req.query.raw) {
+    res.json(posts);
+  } else {
+  res.json(postsList);
   };
 });
 
